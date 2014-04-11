@@ -12,9 +12,11 @@
 #include "dwrite.h"
 
 
-// Global variables
-static DWriteCreateFactoryProc DWriteCreateFactoryReal = NULL;
+// Function pointer
+static DWriteCreateFactoryProc RealDWriteCreateFactory = NULL;
 static DrawGlyphRunProc RealDrawGlyphRun = NULL;
+
+// Global variables
 static TRACED_HOOK_HANDLE hDrawGlyphRun = NULL;
 
 static INT Threshold = 16;
@@ -252,7 +254,7 @@ static void IParamsToParams(LPDWW_IPARAM lpIParams, LPDWW_PARAM lpParams)
   IDWriteRenderingParams *pRenderingParams = NULL;
 
   // Create Default RenderingParams
-  DWriteCreateFactoryReal(DWRITE_FACTORY_TYPE_SHARED,
+  RealDWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED,
     __uuidof(IDWriteFactory),
     reinterpret_cast<IUnknown**>(&pFactory));
   pFactory->CreateRenderingParams(&pRenderingParams);
@@ -338,9 +340,9 @@ static BOOL LoadDWriteCreateFactory()
   }
 
   // Get DWriteCreateFactory function-pointer
-  DWriteCreateFactoryReal = (DWriteCreateFactoryProc)
+  RealDWriteCreateFactory = (DWriteCreateFactoryProc)
     GetProcAddress(LoadLibrary(fullPath), "DWriteCreateFactory");
-  if (DWriteCreateFactoryReal == NULL) {
+  if (RealDWriteCreateFactory == NULL) {
     Throw(_T("LoadLibrary(\"DWriteCreateFactory\") failed"));
   }
 
@@ -358,7 +360,7 @@ EXTERN_C HRESULT DWRITE_EXPORT DWriteCreateFactory(
   HRESULT hr = Hook();
   if (SUCCEEDED(hr)) {
     DBG(_T(" succeeded"));
-    hr = DWriteCreateFactoryReal(factoryType, iid, factory);
+    hr = RealDWriteCreateFactory(factoryType, iid, factory);
   }
   return hr;
 }
