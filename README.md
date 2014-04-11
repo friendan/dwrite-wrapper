@@ -4,15 +4,23 @@ DWrite Wrapper
 DWrite.dll TextRenderingParams and TextAntialiasMode wrapper.
 
 Quick Start
-===========
-Installing DWrite Wrapper is quite easy::
-
+-----------
 *Run as administrator*
+
+Install:
 
     > ie-install.bat
 
-Uninstalling DWrite Wrapper::
-
-*Run as administrator*
+Uninstall:
 
     > ie-uninstall.bat
+
+Build
+-----
+32bit:
+
+    > nmake -f Makefile clean install
+
+64bit:
+
+    > nmake -f Makefile.x64 clean install
