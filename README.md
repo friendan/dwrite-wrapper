@@ -1,4 +1,4 @@
-dwrite-wrapper
+DWrite Wrapper
 ==============
 
 DWrite.dll TextRenderingParams and TextAntialiasMode wrapper.
