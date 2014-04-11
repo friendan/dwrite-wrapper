@@ -7,10 +7,12 @@ Quick Start
 ===========
 Installing DWrite Wrapper is quite easy::
 
-    *Run as administrator*
+*Run as administrator*
+
     > ie-install.bat
 
 Uninstalling DWrite Wrapper::
 
-    *Run as administrator*
+*Run as administrator*
+
     > ie-uninstall.bat
